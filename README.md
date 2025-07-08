@@ -1,6 +1,6 @@
 # Image To Sprite Sheet
 
-A small library to take .png .jpeg .webm and .webp images and pack them into a spritesheet atlus.
+A small library to take .png .jpeg .webm and .webp images and pack them into a sprite sheet atlas.
 
 
 ## Dependencies

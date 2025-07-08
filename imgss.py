@@ -43,9 +43,7 @@ class ImageAtlasGenerator:
             return 1, 1
             
         # Try to make the grid as square as possible
-        # cols = math.ceil(math.sqrt(num_images))
         cols = math.floor(math.sqrt((self.atlas_width / self.sprite_width) * num_images))
-        print(cols)
         rows = math.ceil(num_images / cols)
         
         return cols, rows
@@ -78,8 +76,6 @@ class ImageAtlasGenerator:
         print(f"Using {cols}x{rows} grid layout")
         
         # Calculate cell dimensions
-        # cell_width = self.atlas_width // cols
-        # cell_height = self.atlas_height // rows
         cell_width = self.sprite_width
         cell_height = self.sprite_height
         

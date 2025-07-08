@@ -1,0 +1,6 @@
+.venv
+*.code-workspace
+build
+dist
+test_data
+*.spec

@@ -1,0 +1,14 @@
+# Image Atlas Mapping
+# Atlas Size: 512x512
+# Format: filename | x, y, width, height | cell_x, cell_y, cell_width, cell_height | original_width, original_height
+
+bandage_token.png | 0, 0, 32, 32 | 0, 0, 32, 32 | 32, 32
+bard_token.png | 32, 0, 32, 32 | 32, 0, 32, 32 | 32, 32
+bastion_token.png | 64, 0, 32, 32 | 64, 0, 32, 32 | 32, 32
+black_question_token.png | 96, 0, 32, 32 | 96, 0, 32, 32 | 32, 32
+blade_token.png | 128, 0, 32, 32 | 128, 0, 32, 32 | 32, 32
+grass_tile.png | 160, 0, 32, 32 | 160, 0, 32, 32 | 32, 32
+question_token.png | 192, 0, 32, 32 | 192, 0, 32, 32 | 32, 32
+tile_hover.png | 224, 0, 32, 32 | 224, 0, 32, 32 | 32, 32
+ui_token_pillow.png | 256, 0, 32, 32 | 256, 0, 32, 32 | 32, 32
+water_tile.png | 288, 0, 32, 32 | 288, 0, 32, 32 | 32, 32

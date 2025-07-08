@@ -2,6 +2,8 @@
 
 A small library to take .png .jpeg .webm and .webp images and pack them into a spritesheet atlus.
 
+![test](./example_atlus/test-atlus.png)
+
 ## Dependencies
 
 ```

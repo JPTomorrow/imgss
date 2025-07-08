@@ -3,3 +3,4 @@
 build
 dist
 *.spec
+test_data/*-atlus.png

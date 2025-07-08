@@ -13,9 +13,12 @@ import argparse
 from typing import List, Tuple, Dict
 
 class ImageAtlasGenerator:
-    def __init__(self, input_dir: str, output_path: str, atlas_width: int, atlas_height: int):
+    def __init__(self, input_dir: str, output_path: str, output_name: str, sprite_width: int, sprite_height: int, atlas_width: int, atlas_height: int):
         self.input_dir = input_dir
         self.output_path = output_path
+        self.output_name = output_name
+        self.sprite_width = sprite_width
+        self.sprite_height = sprite_height
         self.atlas_width = atlas_width
         self.atlas_height = atlas_height
         self.supported_formats = {'.png', '.jpeg', '.jpg', '.webm', '.webp'}
@@ -40,7 +43,9 @@ class ImageAtlasGenerator:
             return 1, 1
             
         # Try to make the grid as square as possible
-        cols = math.ceil(math.sqrt(num_images))
+        # cols = math.ceil(math.sqrt(num_images))
+        cols = math.floor(math.sqrt((self.atlas_width / self.sprite_width) * num_images))
+        print(cols)
         rows = math.ceil(num_images / cols)
         
         return cols, rows
@@ -73,8 +78,10 @@ class ImageAtlasGenerator:
         print(f"Using {cols}x{rows} grid layout")
         
         # Calculate cell dimensions
-        cell_width = self.atlas_width // cols
-        cell_height = self.atlas_height // rows
+        # cell_width = self.atlas_width // cols
+        # cell_height = self.atlas_height // rows
+        cell_width = self.sprite_width
+        cell_height = self.sprite_height
         
         print(f"Each cell will be {cell_width}x{cell_height} pixels")
         
@@ -132,7 +139,7 @@ class ImageAtlasGenerator:
                 continue
         
         # Save the atlas
-        atlas.save(self.output_path, 'PNG')
+        atlas.save(self.output_path + ("" if self.output_path.endswith("/") else "/") + self.output_name + "-atlus.png", 'PNG')
         print(f"Atlas saved to: {self.output_path}")
         
         return atlas_mapping
@@ -158,8 +165,11 @@ def main():
     parser = argparse.ArgumentParser(description='Create a texture atlas from multiple images')
     parser.add_argument('input_dir', help='Directory containing input images')
     parser.add_argument('output_path', help='Output path for the atlas PNG file')
-    parser.add_argument('--width', type=int, default=2048, help='Atlas width in pixels (default: 2048)')
-    parser.add_argument('--height', type=int, default=2048, help='Atlas height in pixels (default: 2048)')
+    parser.add_argument('output_name', help='Name for the atlas PNG file')
+    parser.add_argument('--sprite-width', type=int, default=32, help='individual sprite width in pixels (default: 32)')
+    parser.add_argument('--sprite-height', type=int, default=32, help='individual sprite height in pixels (default: 32)')
+    parser.add_argument('--width', type=int, default=512, help='Atlas width in pixels (default: 512)')
+    parser.add_argument('--height', type=int, default=512, help='Atlas height in pixels (default: 512)')
     parser.add_argument('--mapping', help='Path to save mapping file (default: output_path with _mapping.txt suffix)')
     
     args = parser.parse_args()
@@ -169,6 +179,9 @@ def main():
         generator = ImageAtlasGenerator(
             input_dir=args.input_dir,
             output_path=args.output_path,
+            output_name=args.output_name,
+            sprite_width=args.sprite_width,
+            sprite_height=args.sprite_height,
             atlas_width=args.width,
             atlas_height=args.height
         )

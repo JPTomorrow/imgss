@@ -50,16 +50,13 @@ class ImageAtlasGenerator:
     
     def resize_image_to_fit(self, image: Image.Image, cell_width: int, cell_height: int) -> Image.Image:
         """Resize image to fit within cell dimensions while maintaining aspect ratio."""
-        # Calculate scaling factor to fit within cell
         scale_x = cell_width / image.width
         scale_y = cell_height / image.height
         scale = min(scale_x, scale_y)
         
-        # Calculate new dimensions
         new_width = int(image.width * scale)
         new_height = int(image.height * scale)
         
-        # Resize image
         return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
     
     def create_atlas(self) -> Dict[str, Dict]:
@@ -71,52 +68,39 @@ class ImageAtlasGenerator:
             
         print(f"Found {len(image_files)} images to process")
         
-        # Calculate grid dimensions
         cols, rows = self.calculate_grid_size(len(image_files))
         print(f"Using {cols}x{rows} grid layout")
         
-        # Calculate cell dimensions
         cell_width = self.sprite_width
         cell_height = self.sprite_height
         
         print(f"Each cell will be {cell_width}x{cell_height} pixels")
         
-        # Create the atlas canvas
         atlas = Image.new('RGBA', (self.atlas_width, self.atlas_height), (0, 0, 0, 0))
         
-        # Store mapping information
         atlas_mapping = {}
         
-        # Process each image
         for i, image_path in enumerate(image_files):
             try:
-                # Calculate grid position
                 col = i % cols
                 row = i // cols
                 
-                # Calculate position in atlas
                 x = col * cell_width
                 y = row * cell_height
                 
-                # Load and process image
                 print(f"Processing: {os.path.basename(image_path)}")
                 
                 with Image.open(image_path) as img:
-                    # Convert to RGBA if necessary
                     if img.mode != 'RGBA':
                         img = img.convert('RGBA')
                     
-                    # Resize to fit cell
                     resized_img = self.resize_image_to_fit(img, cell_width, cell_height)
                     
-                    # Center the image in the cell
                     paste_x = x + (cell_width - resized_img.width) // 2
                     paste_y = y + (cell_height - resized_img.height) // 2
                     
-                    # Paste into atlas
                     atlas.paste(resized_img, (paste_x, paste_y), resized_img)
                     
-                    # Store mapping information
                     filename = os.path.basename(image_path)
                     atlas_mapping[filename] = {
                         'x': paste_x,
@@ -134,7 +118,6 @@ class ImageAtlasGenerator:
                 print(f"Error processing {image_path}: {e}")
                 continue
         
-        # Save the atlas
         atlas.save(self.output_path + ("" if self.output_path.endswith("/") else "/") + self.output_name + "-atlus.png", 'PNG')
         print(f"Atlas saved to: {self.output_path}")
         
@@ -171,7 +154,6 @@ def main():
     args = parser.parse_args()
     
     try:
-        # Create atlas generator
         generator = ImageAtlasGenerator(
             input_dir=args.input_dir,
             output_path=args.output_path,
@@ -182,10 +164,7 @@ def main():
             atlas_height=args.height
         )
         
-        # Generate atlas
         mapping = generator.create_atlas()
-        
-        # Save mapping file
         generator.save_mapping_file(mapping, args.mapping)
         
         print("\nAtlas generation complete!")

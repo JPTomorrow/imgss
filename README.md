@@ -12,7 +12,7 @@ pip install pillow pyinstaller
 ## USAGE
 
 ```
-python atlas_generator.py /path/to/images output_atlas.png --width 4096 --height 4096
+python atlas_generator.py /path/to/images /path/to/output output_atlas_name.png --sprite-width 32 --sprite-height 32 --width 4096 --height 4096
 ```
 
 ## Example Output
